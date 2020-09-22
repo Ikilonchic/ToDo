@@ -1,11 +1,12 @@
 {
   "name": "todo",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "private": false,
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "scripts/start.sh"
   },
   "author": "Nikita Kuts <ikilonchic@gmail.com>",
   "license": "MIT"
