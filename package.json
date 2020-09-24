@@ -9,5 +9,5 @@
     "start": "scripts/start.sh"
   },
   "author": "Nikita Kuts <ikilonchic@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
 }

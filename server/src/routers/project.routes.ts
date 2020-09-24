@@ -1,7 +1,30 @@
-import express from 'express';
+import { Router, Request, Response } from 'express';
+import { getRepository } from 'typeorm';
 
-const router : express.Router = express.Router();
+import { Project } from '../models/project';
 
-router.get();
+const router = Router();
+
+// Project routes...
+
+router.get('/', async (req: Request, res: Response) => {
+  let projects = getRepository(Project).find({
+    where: { userID: req.cookies.userID }
+  });
+
+  res.end(JSON.stringify(projects));
+});
+
+// router.post('/:p_id', async (req: Request, res: Response) => {
+
+// });
+
+// router.put('/:p_id', async (req: Request, res: Response) => {
+
+// });
+
+// router.delete('/:p_id', async (req: Request, res: Response) => {
+
+// });
 
 export default router;

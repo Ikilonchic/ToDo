@@ -2,22 +2,26 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  ManyToOne
+  ManyToOne,
+  CreateDateColumn
 } from 'typeorm';
 
 import { Project } from './project';
 
-@Entity()
+@Entity({ name: 'tasks' })
 export class Task {
   @PrimaryGeneratedColumn()
   id: number
 
-  @Column('text')
+  @Column({ name: 'text', type: 'text', nullable: false })
   text: string
 
-  @Column('text')
+  @Column({ name: 'status', type: 'text', nullable: false })
   status: string
 
-  @ManyToOne(type => Project, project => project.tasks)
+  @CreateDateColumn({ name: 'deadline', type: 'date', nullable: false })
+  deadline: Date
+
+  @ManyToOne(_ => Project, project => project.tasks)
   project: Project
 }

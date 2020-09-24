@@ -35,8 +35,4 @@ const logger = winston.createLogger({
     exitOnError: false, // do not exit on handled exceptions
 });
 
-logger.stream = {
-    write: (message: any) => logger.info(message)
-};
-
 export default logger;

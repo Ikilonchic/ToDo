@@ -7,17 +7,17 @@ import {
 
 import { Project } from './project';
 
-@Entity()
+@Entity({ name: 'users' })
 export class User {
   @PrimaryGeneratedColumn()
   id: number
 
-  @Column('text')
+  @Column({ name: 'email', type: 'text', nullable: false })
   email: string
 
-  @Column('text')
+  @Column({ name: 'password', type: 'text', nullable: false })
   password: string
 
-  @OneToMany(type => Project, project => project.user)
+  @OneToMany(_ => Project, project => project.user)
   projects: Project[]
 }
