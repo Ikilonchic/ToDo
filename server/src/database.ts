@@ -1,9 +1,9 @@
 import { Connection, createConnection } from 'typeorm';
 import config from './config';
 import logger from './logger';
-import { Project } from './models/project';
-import { Task } from './models/task';
-import { User } from './models/user';
+import { Project } from './models/Project';
+import { Task } from './models/Task';
+import { User } from './models/User';
 
 async function connect() : Promise<Connection> {
   const connection = await createConnection({
@@ -21,6 +21,6 @@ async function connect() : Promise<Connection> {
   logger.info(`Connected to Postgres at ${config.db.url}`);
 
   return connection;
-};
+}
 
 export default connect();

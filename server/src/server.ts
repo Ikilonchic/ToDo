@@ -13,18 +13,19 @@ import logger from './logger';
 
 import dbConnection from './database';
 
-import AuthRouter from './routers/auth.routes';
-import ProjectRouter from './routers/project.routes';
+import authRouter from './routers/Auth.routes';
+import projectsRouter from './routers/Projects.routes';
+import tasksRouter from './routers/Tasks.routes';
 
 const app = express();
 
 app.use(morgan('combined', {
-  stream: { write: (message: any) => logger.info(message) }
+  stream: { write: (message: string) => logger.info(message) }
 }));
 
 app.use(helmet());
 app.use(cors({
-  origin: `http://localhost:${config.port}`
+  origin: true
 }));
 
 app.use(session(config.session));
@@ -32,8 +33,9 @@ app.use(session(config.session));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use('/auth', AuthRouter);
-app.use('/projects', ProjectRouter);
+app.use('/auth', authRouter);
+app.use('/projects', projectsRouter);
+app.use('/tasks', tasksRouter);
 
 async function start() {
   try {

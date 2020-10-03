@@ -10,8 +10,8 @@ const IN_PROD = env.NODE_ENV === 'production';
 function initSession() : SessionOptions {
   return {
     name: env.SESS_NAME,
-    resave: false,
-    saveUninitialized: false,
+    resave: true,
+    saveUninitialized: true,
     secret: String(env.SESS_SECRET),
     cookie: {
       maxAge: Number(env.SESS_LIFETIME),

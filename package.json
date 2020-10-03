@@ -6,8 +6,8 @@
     "server"
   ],
   "scripts": {
-    "start": "scripts/start.sh"
+    "start": "bash scripts/start.sh"
   },
   "author": "Nikita Kuts <ikilonchic@gmail.com>",
-  "license": "MIT",
+  "license": "MIT"
 }
