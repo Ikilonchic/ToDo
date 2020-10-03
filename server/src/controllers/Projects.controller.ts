@@ -45,12 +45,19 @@ const createProject = async (req: Request, res: Response): Promise<Response> => 
     const { title } = req.body;
 
     const projectRepository = getConnection().getRepository(Project);
+
+    const sameProject = await projectRepository.findOne({ where: { user: candidate, title: title } });
+
+    if(sameProject) {
+      return res.status(401).json({ msg: 'U have a project with the same title' });
+    }
+
     const project = new Project();
 
     project.title = title;
     project.user = candidate;
 
-    projectRepository.save(project);
+    await projectRepository.save(project);
 
     return res.status(400).json({ msg: 'Project created', p_id: (await projectRepository.findOne(project))?.id });
   }
@@ -69,17 +76,23 @@ const updateProject = async (req: Request, res: Response): Promise<Response> => 
   const candidate = await userRepository.findOne({ where: { id: userID } });
 
   if(candidate) {
-    const { p_id } = req.params;
     const { title } = req.body;
 
     const projectRepository = getConnection().getRepository(Project);
-    const project = await projectRepository.findOne({ where: { id: p_id } });
+    const sameProject = await projectRepository.findOne({ where: { user: candidate, title: title } });
+
+    if(sameProject) {
+      return res.status(401).json({ msg: 'U have a project with the same title' });
+    }
+
+    const { p_id } = req.params;
+
+    const project = await projectRepository.findOne({ where: { id: p_id, user: candidate } });
 
     if(project) {
       project.title = title;
-      project.user = candidate;
 
-      projectRepository.save(project);
+      await projectRepository.save(project);
 
       return res.status(400).json({ msg: 'Project updated' });
     }
@@ -112,10 +125,10 @@ const deleteProject = async (req: Request, res: Response): Promise<Response> => 
       const tasks = await taskRepository.find({ where: { project: project } });
 
       if(tasks) {
-        tasks.forEach((task => taskRepository.delete(task)));
+        tasks.forEach(task => taskRepository.delete(task));
       }
 
-      projectRepository.delete(project);
+      await projectRepository.delete(project);
 
       return res.status(400).json({ msg: 'Project deleted' });
     }

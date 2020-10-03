@@ -41,13 +41,21 @@ const createTask = async (req: Request, res: Response): Promise<Response> => {
   const candidate = await userRepository.findOne({ where: { id: userID } });
 
   if(candidate) {
-    const { projectID, text, status, deadline } = req.body;
+    const { projectID } = req.body;
 
     const projectRepository = getConnection().getRepository(Project);
     const project = await projectRepository.findOne({ where: { id: projectID, user: candidate } });
 
     if(project) {
+      const { text, status, deadline } = req.body;
+
       const taskRepository = getConnection().getRepository(Task);
+
+      const sameTask = await taskRepository.findOne({ where: { user: candidate, project: project, text: text } });
+
+      if (sameTask) {
+        return res.status(401).json({ msg: 'U have a task in this project with the same text' });
+      }
 
       const task = new Task();
 
@@ -57,7 +65,7 @@ const createTask = async (req: Request, res: Response): Promise<Response> => {
       task.user = candidate;
       task.project = project;
 
-      taskRepository.save(task);
+      await taskRepository.save(task);
 
       return res.status(400).json({ msg: 'Task created' });
     }
@@ -88,14 +96,20 @@ const updateTask = async (req: Request, res: Response): Promise<Response> => {
     if(project) {
       const taskRepository = getConnection().getRepository(Task);
 
-      const task = await taskRepository.findOne({ where: { id: t_id } });
+      const sameTask = await taskRepository.findOne({ where: { user: candidate, project: project, text: text } });
+
+      if (sameTask) {
+        return res.status(401).json({ msg: 'U have a task in this project with the same text' });
+      }
+
+      const task = await taskRepository.findOne({ where: { id: t_id, user: candidate, project: project } });
 
       if(task) {
         task.text = text;
         task.status = status;
         task.deadline = deadline;
 
-        taskRepository.save(task);
+        await taskRepository.save(task);
 
         return res.status(400).json({ msg: 'Task updated' });
       }
@@ -131,7 +145,7 @@ const deleteTask = async (req: Request, res: Response): Promise<Response> => {
       const task = await taskRepository.findOne({ where: { id: t_id } });
 
       if(task) {
-        taskRepository.delete(task);
+        await taskRepository.delete(task);
 
         return res.status(400).json({ msg: 'Task deleted' });
       }
