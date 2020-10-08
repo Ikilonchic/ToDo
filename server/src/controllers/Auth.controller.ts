@@ -2,8 +2,9 @@ import { Request, Response } from "express";
 import { getConnection } from 'typeorm';
 import bcrypt from 'bcrypt';
 
+import config from '../config';
+
 import { User } from '../models/User';
-import logger from "../logger";
 
 function isEmail(email: string) {
   const regexp = /^([a-zA-Z0-9]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9]+\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\]?)$/;
@@ -38,7 +39,8 @@ const signUp = async (req: Request, res: Response): Promise<Response> => {
 
     await userRepository.save(user);
 
-    req!.session!.userID = user.id;
+    const userID = (await userRepository.findOne(user))?.id;
+    res.cookie('userID', userID, config.cookie);
     return res.status(201).json({ msg: 'Account created', auth: true });
   } catch (error) {
     return res.status(503).json({ msg: 'Server error', auth: false });
@@ -56,13 +58,12 @@ const signIn = async (req: Request, res: Response): Promise<Response> => {
     }
 
     const user = await userRepository.findOne({ where: { email: email }});
-    console.log(user)
 
     if(user){
       if(await bcrypt.compare(pass, user?.password)) {
-
-        req!.session!.userID = user.id;
-        return res.status(201).json({ msg: 'U are logged in', auth: true });
+        const userID = (await userRepository.findOne(user))?.id;
+        res.cookie('userID', userID, config.cookie);
+        return res.status(200).json({ msg: 'U are logged in', auth: true });
       }
     }
     return res.status(400).json({ msg: 'User is not found', auth: false });
@@ -71,13 +72,16 @@ const signIn = async (req: Request, res: Response): Promise<Response> => {
   }
 };
 
-const logout = async (req: Request, res: Response): Promise<Response> => {
-  req.session?.destroy((error) => logger.error(error));
+const logout = async (_: Request, res: Response): Promise<Response> => {
+  res.clearCookie('userID');
   return res.status(200).json({ msg: 'U are signed out', auth: false });
 };
 
 const hassigned = async (req: Request, res: Response): Promise<Response> => {
-  if(req.session?.userID) {
+  if(req.cookies.userID) {
+    const userID = req.cookies.userID;
+    res.clearCookie('userID');
+    res.cookie('userID', userID, config.cookie);
     return res.status(200).json({ msg: 'U are signned', auth: true });
   } else {
     return res.status(401).json({ msg: 'U are not login', auth: false });

@@ -1,5 +1,6 @@
+import { join } from 'path';
+
 import express from 'express';
-import session from 'express-session';
 
 import config from './config';
 
@@ -7,15 +8,17 @@ import helmet from 'helmet';
 import cors from 'cors';
 
 import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 
 import morgan from 'morgan';
 import logger from './logger';
 
 import dbConnection from './database';
 
+import auth from './middleware/Auth.middleware';
+
 import authRouter from './routers/Auth.routes';
 import projectsRouter from './routers/Projects.routes';
-import tasksRouter from './routers/Tasks.routes';
 
 const app = express();
 
@@ -25,17 +28,17 @@ app.use(morgan('combined', {
 
 app.use(helmet());
 app.use(cors({
-  origin: true
+  origin: `http://localhost:${config.port}`
 }));
-
-app.use(session(config.session));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cookieParser());
+
+app.use(express.static(join('..', 'client', 'public')));
 
 app.use('/auth', authRouter);
-app.use('/projects', projectsRouter);
-app.use('/tasks', tasksRouter);
+app.use('/api/projects', auth, projectsRouter);
 
 async function start() {
   try {

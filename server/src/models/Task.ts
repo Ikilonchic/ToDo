@@ -17,8 +17,11 @@ export class Task {
   @Column({ name: 'text', type: 'text', nullable: false })
   text: string
 
-  @Column({ name: 'status', type: 'text', nullable: false })
-  status: string
+  @Column({ name: 'status', type: 'bool', nullable: false })
+  status: boolean
+
+  @Column({ name: 'priority', type: 'int', nullable: false })
+  priority: number
 
   @CreateDateColumn({ name: 'deadline', type: 'date', nullable: false })
   deadline: Date
