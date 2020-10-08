@@ -2,6 +2,9 @@ import React from 'react';
 import cookie from 'react-cookies';
 import swal from 'sweetalert';
 
+import { MdHighlightOff } from 'react-icons/md';
+import { HiPencil, HiOutlinePlus } from 'react-icons/hi';
+
 import { getTasksRequest, deleteProjectRequest, updateProjectRequest, postTaskRequest } from '../hooks/Request.hook';
 import Task from './Task';
 
@@ -56,13 +59,13 @@ export default class Project extends React.Component{
           </div>
           <div className="project__button-group">
             <button type="button" className="project__button" onClick={this.addTask}>
-              Add
+              <HiOutlinePlus size={20}/>
             </button>
             <button type="button" className="project__button" onClick={this.editProject}>
-              Edit
+              <HiPencil size={20} />
             </button>
             <button type="button" className="project__button" onClick={this.deleteProject}>
-              Delete
+              <MdHighlightOff size={20}/>
             </button>
           </div>
         </div>
