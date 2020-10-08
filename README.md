@@ -1,7 +1,7 @@
 # ToDo (Node.js & React.js)
 
 ## Front-End:
-- [x] Authorization
+- [x] Authorization, validation
 - [x] Get/create/update/delete projects
 - [x] Get/create/update(name)/delete tasks to a projects
 - [ ] Update(status, deadline) tasks
@@ -11,7 +11,7 @@
 - [x] Config
 - [x] Logging
 - [x] Connection to DB
-- [x] Authorization
+- [x] Authorization, validation
 - [x] Get/create/update/delete projects
 - [x] Get/create/update/delete tasks to a projects
 - [x] Mark a tasks as done/undone
