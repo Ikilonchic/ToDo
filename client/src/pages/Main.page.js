@@ -144,12 +144,15 @@ export default class Main extends React.Component{
           projects: new_projects
         });
       }).catch(error => {
-        swal(
-            <div>
-                <h1>Error!</h1>        
-                <p>Connection error. Please, try again.</p>
-            </div>
-        );
+        swal({
+          title: 'Error!',
+          text: 'Connection error. Please, try again.',
+          button: {
+            text: 'Ok!',
+            closeModal: true,
+            className: 'container-form-btn p-t-20 form-btn'
+          }
+        });
       });
     });
   }
@@ -162,6 +165,5 @@ export default class Main extends React.Component{
 
   deleteCookies() {
     cookie.remove('userID');
-    window.location.reload();
   }
 };

@@ -117,12 +117,15 @@ export default class Project extends React.Component{
           title: project.title
         });
       }).catch(error => {
-        swal(
-            <div>
-                <h1>Error!</h1>        
-                <p>Connection error. Please, try again.</p>
-            </div>
-        );
+        swal({
+          title: 'Error!',
+          text: 'Connection error. Please, try again.',
+          button: {
+            text: 'Ok!',
+            closeModal: true,
+            className: 'container-form-btn p-t-20 form-btn'
+          }
+        });
       });
     });
   }
@@ -130,7 +133,17 @@ export default class Project extends React.Component{
   deleteProject() {
     deleteProjectRequest(this.state.p_id).then(() => {
       this.state.deleteFromMain(this.state.p_id);
-    });
+    }).catch(error => {
+      swal({
+        title: 'Error!',
+        text: 'Connection error. Please, try again.',
+        button: {
+          text: 'Ok!',
+          closeModal: true,
+          className: 'container-form-btn p-t-20 form-btn'
+        }
+      });
+    });;
   }
 
   addTask() {
@@ -169,12 +182,15 @@ export default class Project extends React.Component{
           tasks: new_tasks
         });
       }).catch(error => {
-        swal(
-            <div>
-                <h1>Error!</h1>        
-                <p>Connection error. Please, try again.</p>
-            </div>
-        );
+        swal({
+          title: 'Error!',
+          text: 'Connection error. Please, try again.',
+          button: {
+            text: 'Ok!',
+            closeModal: true,
+            className: 'container-form-btn p-t-20 form-btn'
+          }
+        });
       });
     })
   }

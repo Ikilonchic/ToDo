@@ -103,10 +103,10 @@ const updateTask = async (req: Request, res: Response): Promise<Response> => {
       const task = await taskRepository.findOne({ where: { id: t_id, user: candidate, project: project } });
 
       if(task) {
-        task.text = text;
-        task.status = status;
-        task.deadline = new Date(deadline);
-        task.priority = priority;
+        task.text = (text !== undefined) ? text : task.text;
+        task.status = (status !== undefined) ? status : task.status;
+        task.deadline = (deadline !== undefined) ? new Date(deadline) : task.deadline;
+        task.priority = (priority !== undefined) ? priority : task.priority;
 
         await taskRepository.save(task);
 

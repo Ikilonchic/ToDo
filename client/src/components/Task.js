@@ -1,7 +1,7 @@
 import React from 'react';
 import swal from 'sweetalert';
 
-import { MdHighlightOff, MdDone } from 'react-icons/md';
+import { MdHighlightOff, MdDone, MdDoneAll } from 'react-icons/md';
 import { HiPencil } from 'react-icons/hi';
 import { BsDot } from 'react-icons/bs';
 
@@ -23,6 +23,7 @@ export default class Task extends React.Component{
       deleteFromProject: props.deleteTask
     };
 
+    this.changeStatus = this.changeStatus.bind(this);
     this.editTask = this.editTask.bind(this);
     this.deleteTask = this.deleteTask.bind(this);
   }
@@ -36,10 +37,10 @@ export default class Task extends React.Component{
       <div id={this.state.id} className="task">
         <div className="task__body">
           <div className="task__title" title={this.state.deadline}>
-            <BsDot /> {this.state.text}
+            {(this.state.status) ? <MdDoneAll /> : <BsDot />} {this.state.text}
           </div>
           <div className="task__button-group">
-            <button type="button" className="task__button" onClick={this.setStatus}>
+            <button type="button" className="task__button" onClick={this.changeStatus}>
               <MdDone />
             </button>
             <button type="button" className="task__button" onClick={this.editTask}>
@@ -54,8 +55,26 @@ export default class Task extends React.Component{
     );
   }
 
-  setStatus() {
-    //////////
+  changeStatus() {
+    const task = {
+      status: !this.state.status,
+    };
+
+    updateTaskRequest(this.state.p_id, this.state.t_id, task).then(() => {
+      this.setState({
+        status: task.status
+      });
+    }).catch(error => {
+      swal({
+        title: 'Error!',
+        text: 'Connection error. Please, try again.',
+        button: {
+          text: 'Ok!',
+          closeModal: true,
+          className: 'container-form-btn p-t-20 form-btn'
+        }
+      });
+    });
   }
 
   editTask() {
@@ -76,19 +95,22 @@ export default class Task extends React.Component{
         text: task_name,
         status: this.state.status,
         deadline: this.state.deadline
-      }
+      };
 
       updateTaskRequest(this.state.p_id, this.state.t_id, task).then(() => {
         this.setState({
           text: task.text
         });
       }).catch(error => {
-        swal(
-          <div>
-            <h1>Error!</h1>        
-            <p>Connection error. Please, try again.</p>
-          </div>
-        );
+        swal({
+          title: 'Error!',
+          text: 'Connection error. Please, try again.',
+          button: {
+            text: 'Ok!',
+            closeModal: true,
+            className: 'container-form-btn p-t-20 form-btn'
+          }
+        });
       });
     });
   }
@@ -97,6 +119,16 @@ export default class Task extends React.Component{
     deleteTaskRequest(this.state.p_id, this.state.t_id).then(() => {
       this.state.deleteFromProject(this.state.t_id);
       this.forceUpdate();
-    });
+    }).catch(error => {
+      swal({
+        title: 'Error!',
+        text: 'Connection error. Please, try again.',
+        button: {
+          text: 'Ok!',
+          closeModal: true,
+          className: 'container-form-btn p-t-20 form-btn'
+        }
+      });
+    });;
   }
 };
