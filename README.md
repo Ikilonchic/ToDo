@@ -17,4 +17,4 @@
 - [x] Mark a tasks as done/undone
 
 ## Bugs:
-- [] When u delete any project or task, always deletes a last
+- [ ] When u delete any project or task, always deletes a last
