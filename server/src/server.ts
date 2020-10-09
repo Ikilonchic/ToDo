@@ -1,22 +1,29 @@
 import { join } from 'path';
 
+// Express ...
 import express from 'express';
 
+// Config ...
 import config from './config';
 
 import helmet from 'helmet';
 import cors from 'cors';
 
+// JSON and cookie ...
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 
+// Logging ...
 import morgan from 'morgan';
 import logger from './logger';
 
+// DB ...
 import dbConnection from './database';
 
+// Auth middleware ...
 import auth from './middleware/Auth.middleware';
 
+// Router for auth and api ...
 import authRouter from './routers/Auth.routes';
 import projectsRouter from './routers/Projects.routes';
 
@@ -40,6 +47,7 @@ app.use(express.static(join('..', 'client', 'public')));
 app.use('/auth', authRouter);
 app.use('/api/projects', auth, projectsRouter);
 
+// Start server ...
 async function start() {
   try {
     await dbConnection;

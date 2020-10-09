@@ -1,10 +1,14 @@
 import { Connection, createConnection } from 'typeorm';
+
 import config from './config';
 import logger from './logger';
+
+// Models ...
 import { Project } from './models/Project';
 import { Task } from './models/Task';
 import { User } from './models/User';
 
+ // Connection to DB ...
 async function connect() : Promise<Connection> {
   const connection = await createConnection({
     type: 'postgres',

@@ -5,9 +5,6 @@
     "client",
     "server"
   ],
-  "scripts": {
-    "start": "bash scripts/start.sh"
-  },
   "author": "Nikita Kuts <ikilonchic@gmail.com>",
   "license": "MIT"
 }
