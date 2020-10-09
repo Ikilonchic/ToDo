@@ -1,4 +1,4 @@
-# ToDo (Node.js & React.js)
+# ToDo (Express.js & React.js)
 
 ## Front-End:
 - [x] Authorization, validation
