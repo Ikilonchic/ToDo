@@ -4,8 +4,8 @@
 - [x] Authorization, validation
 - [x] Get / create / update / delete projects
 - [x] Get / create / update(name, status) / delete tasks to a projects
-- [ ] Update(deadline) tasks
-- [ ] Prioritize tasks
+- [x] Update(deadline) tasks
+- [x] Prioritize tasks
 
 ## Back-End:
 - [x] Config

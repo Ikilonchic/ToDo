@@ -27,14 +27,11 @@ export default class Project extends React.Component{
     this.deleteProject = this.deleteProject.bind(this);
 
     this.addTask = this.addTask.bind(this);
+    this.changeTaskPriority = this.changeTaskPriority.bind(this);
     this.deleteTask = this.deleteTask.bind(this);
   }
 
   render(){
-    if(this.state.is_clear) {
-      return (<div></div>);
-    }
-
     if(this.state.is_loaded) {
       return this.displayProject();
     }
@@ -70,7 +67,7 @@ export default class Project extends React.Component{
           </div>
         </div>
         {this.state.tasks.map((element, index) => (
-          <Task id={index} p_id={this.state.p_id} task={element} deleteTask={this.deleteTask}/>
+          <Task key={index} id={index} p_id={this.state.p_id} task={element} deleteTask={this.deleteTask}/>
         ))}
       </div>
     );
@@ -193,6 +190,10 @@ export default class Project extends React.Component{
         });
       });
     })
+  }
+
+  changeTaskPriority() {
+
   }
 
   deleteTask(t_id) {

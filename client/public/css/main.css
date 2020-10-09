@@ -512,15 +512,6 @@ iframe {
   padding: 6px;
 }
 
-.project__button-group {
-  opacity: 0;
-  transition-duration: 0.5s;
-}
-
-.project__button-group:hover {
-  opacity: 100;
-}
-
 .project__button {
   border-radius: 3px;
 
@@ -574,6 +565,12 @@ iframe {
 
 .task__button:active {
   background: #E9ECEF;
+}
+
+.projectTaskAddDate{
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding-left: 10px;
+  border-radius: 5px;
 }
 
 /*//////////////////////////////////////////////////////////////////

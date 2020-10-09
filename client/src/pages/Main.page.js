@@ -77,7 +77,7 @@ export default class Main extends React.Component{
               <div data-spy="scroll" data-target="#project-list" data-offset="1" className="project-scrollspy border-group">
                 {this.state.projects.map((element, index) => (
                   <div className="border-group__element">
-                    <Project id={`list-item-${index}`} project={element} deleteProject={this.deleteProject} />
+                    <Project key={index} id={`list-item-${index}`} project={element} deleteProject={this.deleteProject} />
                   </div>
                 ))}
               </div>
